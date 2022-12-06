@@ -10,7 +10,7 @@ import { Router } from "express";
 export const todosRouter = Router();
 
 todosRouter.get("/", getTodos);
-todosRouter.get("/:todoId", getSingleTodo);
+todosRouter.get("/:id", getSingleTodo);
 todosRouter.post("/", createTodo);
-todosRouter.patch("/:todoId", modifyTodo);
-todosRouter.delete("/:todoId", deleteTodo);
+todosRouter.patch("/:id", modifyTodo);
+todosRouter.delete("/:id", deleteTodo);
