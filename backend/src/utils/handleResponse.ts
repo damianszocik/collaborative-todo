@@ -3,7 +3,7 @@ import { Response } from "express";
 export const handleMessageResponse = (
   res: Response,
   statusCode: number = 500,
-  message: string = "Server error",
+  message: string | undefined = "Server error",
   additionalData?: {}
 ) => {
   return res.status(statusCode).send({ message, ...additionalData });

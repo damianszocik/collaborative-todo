@@ -6,16 +6,18 @@ import { z } from "zod";
 import { fromZodError } from "zod-validation-error";
 
 const handleControllerError = (res: Response, error: unknown) => {
+  let message,
+    code = 400;
   if (error instanceof z.ZodError) {
-    handleMessageResponse(res, 400, fromZodError(error).message);
-  } else if (
-    isExpectedError(error) &&
-    !(error instanceof Prisma.PrismaClientKnownRequestError)
-  ) {
-    handleMessageResponse(res, error.code, error.message);
-  } else {
-    handleMessageResponse(res);
+    message = fromZodError(error).message;
+  } else if (error instanceof Prisma.PrismaClientKnownRequestError) {
+    message =
+      typeof error.meta?.cause == "string" ? error.meta?.cause : undefined;
+  } else if (isExpectedError(error)) {
+    message = error.message;
+    code = error.code;
   }
+  handleMessageResponse(res, code, message);
 };
 
 export const getTodos: RequestHandler = async (req, res) => {
