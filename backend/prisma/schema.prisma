@@ -11,9 +11,19 @@ datasource db {
 }
 
 model Todo {
-  id         String   @id @default(uuid())
+  id         String     @id @default(uuid())
   title      String
   content    String
-  createdAt  DateTime @default(now())
-  modifiedAt DateTime @default(now())
+  createdAt  DateTime   @default(now())
+  modifiedAt DateTime   @default(now())
+  items      TodoItem[]
+}
+
+model TodoItem {
+  id      String  @id @default(uuid())
+  title   String
+  content String?
+  done    Boolean @default(false)
+  todoId  String? @unique
+  todo    Todo?   @relation(fields: [todoId], references: [id])
 }
