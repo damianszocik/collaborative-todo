@@ -4,7 +4,7 @@ import { handleControllerError } from "utils/errorHandlers";
 import { handleMessageResponse } from "utils/responseHandlers";
 
 export const getTodos: RequestHandler = async (req, res) => {
-  const todos = await prisma.todo.findMany();
+  const todos = await prisma.todo.findMany({ include: { items: true } });
   res.json(todos);
 };
 
@@ -12,6 +12,7 @@ export const getSingleTodo: RequestHandler = async (req, res) => {
   try {
     const matchedTodo = await prisma.todo.findUnique({
       where: { id: req.params.id },
+      include: { items: true },
     });
     if (!matchedTodo) {
       throw { code: 404, message: "can't find a todo with provided id" };

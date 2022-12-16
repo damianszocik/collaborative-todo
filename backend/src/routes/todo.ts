@@ -9,12 +9,12 @@ import { Router } from "express";
 import { z } from "zod";
 import { validateRequest } from "middleware/validateRequest";
 
-export const todoRouter = Router();
-
 const todoBodySchemaValidator = z.object({
   title: z.string({ required_error: "title property is required" }),
   content: z.string({ required_error: "content property is required" }),
 });
+
+export const todoRouter = Router();
 
 todoRouter.get("/all", getTodos);
 todoRouter.get("/:id", getSingleTodo);

@@ -1,15 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { AnyZodObject, ZodError } from "zod";
+import { fromZodError } from "zod-validation-error";
 
 const handleZodValidatationExeptionResponse = (
   error: ZodError,
   res: Response
 ) => {
   res.status(400);
-  if (error.issues[0]?.message) {
-    res.json({ message: error.issues[0].message });
-  }
-  res.send();
+  const { message } = fromZodError(error);
+  res.json({ message }).send();
 };
 
 export const validateRequest =
