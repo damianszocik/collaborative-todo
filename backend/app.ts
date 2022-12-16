@@ -1,7 +1,7 @@
 import express from "express";
-import { todosRouter } from "routes/todos";
 import { PORT } from "config/constants";
 import morgan from "morgan";
+import { apiRouter } from "routes";
 
 const app = express();
 
@@ -12,8 +12,4 @@ app.listen(PORT, () => {
   console.log(`server is listening on port ${PORT}`);
 });
 
-app.get("/", (req, res) => {
-  res.json({ message: "siema!" });
-});
-
-app.use("/todos", todosRouter);
+app.use("/api", apiRouter);
